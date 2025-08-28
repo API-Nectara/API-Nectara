@@ -20,5 +20,10 @@
   "homepage": "https://github.com/API-Nectara/API-Nectara#readme",
   "devDependencies": {
     "supertest": "^7.1.4"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.3",
+    "sequelize": "^6.37.7"
   }
 }
