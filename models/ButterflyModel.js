@@ -17,8 +17,90 @@ const ButterflyModel = db_connection.define('butterflies', {
             }
         }
     },
-    scientific_name
+    scientific_name: {
 
-    });
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'este campo no puede estar vacío'
+            },
+            len: {
+                min: 2,
+                msg: 'este campo no permite menos de 2 caracteres'
+            }
+        }
+    },
+
+    location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'este campo no puede estar vacío'
+            },
+            len: {
+                min: 2,
+                msg: 'este campo no permite menos de 2 caracteres'
+            }
+        }
+    },
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'este campo no puede estar vacío'
+            },
+            min: {
+                args: 10,
+                msg: 'este campo no permite menos de 10 caracterés'
+            }
+        }
+    },
+    habitat: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'este campo no puede estar vacío'
+            },
+            len: {
+                min: 2,
+                msg: 'este campo no permite menos de 2 caracteres'
+            }
+        }
+    },
+    image: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'este campo no puede estar vacío'
+            },
+            min: {
+                args: 10,
+                msg: 'este campo no permite menos de 10 caracterés'
+            }
+        }
+    },
+    migratory:{
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'este campo no puede estar vacío'
+            },            
+        }
+    },
+
+}, {
+    timestamps: false
+});
+export default ButterflyModel
+    
+    
 
 
+
+        
