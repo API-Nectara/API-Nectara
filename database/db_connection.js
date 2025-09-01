@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import dotenv from "dotenv"; dotenv.config({ path: '.env.local' });
 
 const db_connection = new Sequelize(
         process.env.DB_NAME,
