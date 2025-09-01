@@ -15,7 +15,7 @@ app.use("/butterflies", butterflyRouter)
 
 
 try {
-    await db_connection.authenticate()
+    await db_connection.authenticate() //cada vez que levantamos node app.js
     console.log('conected to database🐱‍🚀')
     await ButterflyModel.sync()
     console.log('models syncronised✔')
