@@ -1,8 +1,8 @@
-import express from "express";
-import { getAllButterflies } from "../controllers/ButterflyController.js";
+import express from "express"
+import { getAllButterflies} from "../controllers/ButterflyController.js"
 
-const butterflyRouter = express.Router();
+const butterflyRouter= express.Router()
 
 butterflyRouter.get("/", getAllButterflies)
 
-export default butterflyRouter;
+export default butterflyRouter
