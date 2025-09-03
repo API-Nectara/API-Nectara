@@ -76,10 +76,49 @@ describe("test butterfly crud", () => {
         });
 
     })
+    describe("DELETE /butterfly", () => {
+        let response;
+        let testButterfly;
+        beforeEach(async () => {
+            try {
+                testButterfly = await ButterflyModel.create({
+                    common_name: "test",
+                    scientific_name: "test",
+                    location: "test",
+                    description: "esto es un test largo",
+                    habitat: "test",
+                    image: "https://test.com/",
+                    migratory: true
+                });
+            } catch (e) {
+                console.error(
+                    "Create failed:",
+                    e.name,
+                    e.message,
+                    e.errors?.map(x => x.message),
+                    e.parent?.sqlMessage // 👈 MySQL dice la columna exacta (ej: "Column 'createdAt' cannot be null")
+                );
+                throw e;
+            }
+
+            response = await request(app).delete(`/butterflies/${testButterfly.id}`).send();
+
+        });
+         test('should return a response with status 200 and type json', async () => {
+            expect(response.status).toBe(200); // responde en todo 200 o sea ok
+            expect(response.headers['content-type']).toContain('json');
+        })
+        test('should return a message butterflies deleted successfully and delete the butterfly', async () => {
+            expect(response.body.message).toContain( "The butterfly has been deleted successfully!");
+            const foundButterfly = await ButterflyModel.findOne({ where: { id: testButterfly.id } });
+            expect(foundButterfly).toBeNull();// certifica que se ha elimiando
+        })
+
+    });
 
     afterAll(async () => {
         await db_connection.close()
         server.close()
     })
 
-})
+});
