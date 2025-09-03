@@ -34,3 +34,24 @@ export const deleteButterfly = async (req, res) => {
     }
 
 };
+export const createButterfly = async (req, res) => {
+    try {
+        const { common_name, scientific_name, location, description, habitat, image, migratory } = req.body;
+        const newButterfly = await ButterflyModel.create({
+            common_name,
+            scientific_name,
+            location,
+            description,
+            habitat,
+            image,
+            migratory
+        });
+        res.status(201).json({
+            message: "Mariposa creada correctamente",
+            data: newButterfly
+        });
+    } catch (error) {
+        console.error("createButterfly error:", error);
+        res.status(500).json({ error: "Error creando mariposa" });
+    }
+}
