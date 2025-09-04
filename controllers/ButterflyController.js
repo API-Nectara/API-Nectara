@@ -48,7 +48,8 @@ export const createButterfly = async (req, res) => {
         });
         res.status(201).json({
             message: "Mariposa creada correctamente",
-            data: newButterfly
+            data: newButterfly,
+            id: newButterfly.id
         });
     } catch (error) {
         console.error("createButterfly error:", error);
