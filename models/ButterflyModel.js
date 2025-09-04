@@ -85,7 +85,7 @@ const ButterflyModel = db_connection.define('butterflies', {
           msg: "este campo no permite menos de 5 caracteres",
         },
         // Si quieres forzar que sea una URL, descomenta esto:
-        // isUrl: { msg: "el campo image debe ser una URL válida" }
+         isUrl: { msg: "el campo image debe ser una URL válida" }
       },
     },
     migratory: {

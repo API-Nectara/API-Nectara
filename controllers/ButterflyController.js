@@ -33,7 +33,7 @@ export const deleteButterfly = async (req, res) => {
     }
 
 };
-export const createButterfly = async (req, res) => {
+export const createButterfly = async (req, res,) => {
     try {
         const { common_name, scientific_name, location, description, habitat, image, migratory } = req.body;
         const newButterfly = await ButterflyModel.create({
