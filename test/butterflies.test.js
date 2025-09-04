@@ -43,7 +43,7 @@ describe("test butterfly crud", () => {
                     e.name,
                     e.message,
                     e.errors?.map(x => x.message),
-                    e.parent?.sqlMessage // 👈 MySQL dice la columna exacta (ej: "Column 'createdAt' cannot be null")
+                    e.parent?.sqlMessage //MySQL dice la columna exacta (ej: "Column 'createdAt' cannot be null")
                 );
                 throw e;
             }
@@ -75,7 +75,7 @@ describe("test butterfly crud", () => {
             expect(notFoundRes.body).toHaveProperty("error");
         });
 
-    });
+    })
     describe("DELETE /butterfly", () => {
         let response;
         let testButterfly;
@@ -100,127 +100,81 @@ describe("test butterfly crud", () => {
                 );
                 throw e;
             }
-            
+
             response = await request(app).delete(`/butterflies/${testButterfly.id}`).send();
 
         });
-         test('should return a response with status 200 and type json', async () => {
+        test('should return a response with status 200 and type json', async () => {
             expect(response.status).toBe(200); // responde en todo 200 o sea ok
             expect(response.headers['content-type']).toContain('json');
         })
         test('should return a message butterflies deleted successfully and delete the butterfly', async () => {
-            expect(response.body.message).toContain( "The butterfly has been deleted successfully!");
+            expect(response.body.message).toContain("The butterfly has been deleted successfully!");
             const foundButterfly = await ButterflyModel.findOne({ where: { id: testButterfly.id } });
             expect(foundButterfly).toBeNull();// certifica que se ha elimiando
         })
 
     });
-    
-describe("POST /butterflies", () => {
-        let response, newButterflyData;
-
-        beforeEach(async () => {
-            newButterflyData = {
-                common_name: "New Butterfly",
-                scientific_name: "Novus butterflyus",
-                location: "New Location",
-                description: "Descripción larga y suficiente para test",
-                habitat: "New Habitat",
-                image: "https://test.com/image.jpg",
-                migratory: true
-            };
-
-            response = await request(app).post("/butterflies").send(newButterflyData);
-        });
-
-        afterEach(async () => {
-            if (response.body?.id) {
-                await ButterflyModel.destroy({ where: { id: response.body.id } });
-            }
-        });
-
-        test("should return 201 and JSON response", () => {
-            expect(response.status).toBe(201);
-            expect(response.headers["content-type"]).toContain("json");
-        });
-
-        test("should return success message and saved butterfly", async () => {
-            expect(response.body.message).toMatch(/creada correctamente/i); // flexible con el mensaje
-            const saved = await ButterflyModel.findOne({ where: { id: response.body.id } });
-            expect(saved).not.toBeNull();
-        });
-
-        test("should fail validation if required field missing", async () => {
-            const invalidData = { ...newButterflyData, common_name: "" };
-            const res = await request(app).post("/butterflies").send(invalidData);
-            expect(res.status).toBe(400);
-            expect(res.body.errors).toBeDefined();
-            expect(res.body.errors[0].msg).toMatch(/obligatorio/i);
-        });
-    });
-    describe("POST /butterflies", () => {
-  let createdId;
-
-  afterEach(async () => {
-    if (createdId) {
-      await ButterflyModel.destroy({ where: { id: createdId } });
-      createdId = null;
-    }
-  });
-
-  test("201: create butterfly when the body is valid", async () => {
-    const res = await request(app)
-      .post("/butterflies")
-      .send({
-        common_name: "Mariposa Azul",
-        scientific_name: "Morpho peleides",
-        location: "América Central",
-        description: "Descripción válida con más de diez caracteres.",
-        habitat: "Selva tropical",
-        image: "https://example.com/morpho.jpg",
-        migratory: false
-      })
-      .set("Content-Type", "application/json");
-
-    expect(res.status).toBe(201);
-    expect(res.headers["content-type"]).toContain("json");
-    expect(res.body.message).toBe("Mariposa creada correctamente");
-    expect(res.body).toHaveProperty("data");
-    expect(res.body.data).toHaveProperty("id");
-    createdId = res.body.data.id;
-
-    // Verifica en BD
-    const inDb = await ButterflyModel.findByPk(createdId);
-    expect(inDb).not.toBeNull();
-    expect(inDb.common_name).toBe("Mariposa Azul");
-  });
-
-  test("400: returns validation errors with invalid body", async () => {
-    const res = await request(app)
-      .post("/butterflies")
-      .send({
-        common_name: "",
-        scientific_name: "",
-        location: "",
-        description: "corta",
-        habitat: "",
-        image: "no-url",
-        migratory: "quizas"
-      })
-      .set("Content-Type", "application/json");
-
-    expect(res.status).toBe(400);
-    expect(Array.isArray(res.body.errors)).toBe(true);
-    expect(res.body.errors.length).toBeGreaterThan(0);
-  });
-});
-
-
-
 
     afterAll(async () => {
         await db_connection.close()
         server.close()
     })
 
-})
+});
+describe("POST /butterflies", () => {
+    let createdId;
+
+    afterEach(async () => {
+        if (createdId) {
+            await ButterflyModel.destroy({ where: { id: createdId } });
+            createdId = null;
+        }
+    });
+
+    test("201: create butterfly when the body is valid", async () => {
+        const res = await request(app)
+            .post("/butterflies")
+            .send({
+                common_name: "Mariposa Azul",
+                scientific_name: "Morpho peleides",
+                location: "América Central",
+                description: "Descripción válida con más de diez caracteres.",
+                habitat: "Selva tropical",
+                image: "https://example.com/morpho.jpg",
+                migratory: false
+            })
+            .set("Content-Type", "application/json");
+
+        expect(res.status).toBe(201);
+        expect(res.headers["content-type"]).toContain("json");
+        expect(res.body.message).toBe("Mariposa creada correctamente");
+        expect(res.body).toHaveProperty("data");
+        expect(res.body.data).toHaveProperty("id");
+        createdId = res.body.data.id;
+
+        // Verifica en BD
+        const inDb = await ButterflyModel.findByPk(createdId);
+        expect(inDb).not.toBeNull();
+        expect(inDb.common_name).toBe("Mariposa Azul");
+    });
+
+    test("400: returns validation errors with invalid body", async () => {
+        const res = await request(app)
+            .post("/butterflies")
+            .send({
+                common_name: "",
+                scientific_name: "",
+                location: "",
+                description: "corta",
+                habitat: "",
+                image: "no-url",
+                migratory: "quizas"
+            })
+            .set("Content-Type", "application/json");
+
+        expect(res.status).toBe(400);
+        expect(Array.isArray(res.body.errors)).toBe(true);
+        expect(res.body.errors.length).toBeGreaterThan(0);
+    });
+}); 

@@ -4,7 +4,7 @@ import { validationResult } from "express-validator"
 import { createButterflyValidator, updateButterflyValidator } from "../validators/butterfliesValidators.js"
 
 const butterflyRouter = express.Router()
-butterflyRouter.use((req,res,next)=>{
+butterflyRouter.use((req, res, next) => {
   console.log("ROUTER →", req.method, req.originalUrl);
   next();
 });
@@ -14,21 +14,21 @@ butterflyRouter.get("/:id", getOneButterfly)
 butterflyRouter.delete("/:id", deleteButterfly)
 butterflyRouter.post("/", createButterflyValidator, (req, res, next) => {
 
-    const errors = validationResult(req);
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    // si no hay errores se llama al controlador
-     createButterfly(req, res, next);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  // si no hay errores se llama al controlador
+  createButterfly(req, res, next);
 
 });
 butterflyRouter.put("/:id", updateButterflyValidator, (req, res, next) => {
-    console.log('→ Llega al PUT con id:', req.params.id);
-    const errors = validationResult(req);
+  console.log('→ Llega al PUT con id:', req.params.id);
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-     updateButterfly(req, res, next);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+  updateButterfly(req, res, next);
 });
 console.log("📌 Rutas cargadas en butterflies:");// para ver si carga todas las rutas GET/POST/PUT/DELETE
 butterflyRouter.stack.forEach(r => {
@@ -37,8 +37,12 @@ butterflyRouter.stack.forEach(r => {
   }
 });
 
+const errors = validationResult(req);
 
+if (!errors.isEmpty()) {
+  return res.status(400).json({ errors: errors.array() });
+}
+// si no hay errores se llama al controlador
+createButterfly(req, res, next);
 
-
-
-export default butterflyRouter
+});

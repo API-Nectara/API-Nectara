@@ -9,7 +9,7 @@ body('habitat').trim().notEmpty().withMessage('El hábitat es obligatorio'),
 body('image').trim().isURL().withMessage('La imagen debe ser una URL válida'),
 body('migratory').isBoolean().withMessage('Migratory debe ser true o false').toBoolean(),
 ];
- 
+
 export const updateButterflyValidator = [
   param("id").isInt({ min: 1 }).withMessage("El id debe ser un entero positivo"),// param es solo para el id
   body("common_name").trim().notEmpty().withMessage("El nombre común es obligatorio"),
