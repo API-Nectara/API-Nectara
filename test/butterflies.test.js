@@ -87,7 +87,7 @@ describe("test butterfly crud", () => {
                     location: "test",
                     description: "esto es un test largo",
                     habitat: "test",
-                    image: "https://test.com/",
+                    image: "https://test.com",
                     migratory: true
                 });
             } catch (e) {
@@ -115,14 +115,7 @@ describe("test butterfly crud", () => {
         })
 
     });
-
-    afterAll(async () => {
-        await db_connection.close()
-        server.close()
-    })
-
-});
-describe("POST /butterflies", () => {
+    describe("POST /butterflies", () => {
     let createdId;
 
     afterEach(async () => {
@@ -136,16 +129,16 @@ describe("POST /butterflies", () => {
         const res = await request(app)
             .post("/butterflies")
             .send({
-                common_name: "Mariposa Azul",
-                scientific_name: "Morpho peleides",
-                location: "América Central",
+                common_name: "test",
+                scientific_name: "test",
+                location: "test",
                 description: "Descripción válida con más de diez caracteres.",
-                habitat: "Selva tropical",
+                habitat: "test",
                 image: "https://example.com/morpho.jpg",
                 migratory: false
             })
             .set("Content-Type", "application/json");
-
+            
         expect(res.status).toBe(201);
         expect(res.headers["content-type"]).toContain("json");
         expect(res.body.message).toBe("Mariposa creada correctamente");
@@ -156,7 +149,7 @@ describe("POST /butterflies", () => {
         // Verifica en BD
         const inDb = await ButterflyModel.findByPk(createdId);
         expect(inDb).not.toBeNull();
-        expect(inDb.common_name).toBe("Mariposa Azul");
+        expect(inDb.common_name).toBe("test");
     });
 
     test("400: returns validation errors with invalid body", async () => {
@@ -178,3 +171,11 @@ describe("POST /butterflies", () => {
         expect(res.body.errors.length).toBeGreaterThan(0);
     });
 }); 
+
+
+    afterAll(async () => {
+        await db_connection.close()
+        server.close()
+    })
+
+});
