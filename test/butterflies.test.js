@@ -3,12 +3,14 @@ import { app, server } from "../app.js";
 import db_connection from "../database/db_connection.js";
 import ButterflyModel from "../models/ButterflyModel.js";
 
+test("Estamos usando la base de datos de TEST", async () => {
+    const [rows] = await db_connection.query("SELECT DATABASE() AS db");
+    expect(rows[0].db).toMatch(/test/i);
+});
+
 
 describe("test butterfly crud", () => {
-    beforeAll(async () => {
-        await db_connection.authenticate();
-        await db_connection.sync({ alter: true }); // o { force: true } si es BD solo de test
-    })
+
     describe("GET /butterflies", () => {
         let response
         beforeEach(async () => {
@@ -281,9 +283,5 @@ describe("test butterfly crud", () => {
         });
     });
 
-    afterAll(async () => {
-        await db_connection.close()
-        server.close()
-    })
 
 });
