@@ -1,0 +1,7 @@
+{
+    "geminicodeassist.enable": false,
+    "geminicodeassist.enableTelemetry": false,
+    "geminicodeassist.inlineSuggestions.enableAuto": false,
+    "geminicodeassist.inlineSuggestions.nextEditPredictions": false,
+    "geminicodeassist.inlineSuggestions.suggestionSpeed": "Slow"
+}
