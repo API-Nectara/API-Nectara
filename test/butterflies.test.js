@@ -201,13 +201,13 @@ describe("test butterfly crud", () => {
                 throw e;
             }
 
-            // response = await request(app).delete(`/butterflies/${testButterfly.id}`).send();
-
+            
         });
+        // Despues de cada test
         afterEach(async () => {
             if (testButterfly?.id) {
-                await ButterflyModel.destroy({ where: { id: testButterfly.id } });
-                testButterfly = null;
+                await ButterflyModel.destroy({ where: { id: testButterfly.id } }); // Borra de la tabla la fila que tenga el id de mi mariposa de prueba
+                testButterfly = null;//Después de borrar en la base de datos, dejas la variable vacía (null) para que no quede ningún dato guardado en memoria.
             }
         });
         test("200: update butterfly when is valid", async () => {
