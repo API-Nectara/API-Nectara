@@ -129,6 +129,6 @@ Este proyecto fue posible gracias a la colaboración de dos equipos especializad
 ## 📖 Documentación en Postman
 La documentación completa de la API está disponible en Postman:  
 
-👉 [Ver documentación en Postman](https://documenter.getpostman.com/view/XXXXX/2s93Y4zXabc)  
+👉 [Ver documentación en Postman](https://documenter.getpostman.com/view/46421313/2sB3HopKJS)  
 
 *(Reemplaza con tu URL real generada en Postman)*
